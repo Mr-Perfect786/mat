@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Alert</title>
+  <style>
+    body {
+      background-color: black;
+      color: lime;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .message {
+      font-size: 1.2em;
+      margin: 10px 0;
+      text-align: center;
+    }
+    .warning-message {
+      color: red;
+      font-weight: bold;
+      font-size: 1.5em;
+      animation: blink 1s infinite; /* Blinking warning message */
+      margin-top: 20px;
+      text-align: center;
+    }
+    .exit-warning {
+      display: none;
+      color: red;
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-top: 30px;
+      text-align: center;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    #prank-end {
+      display: none;
+      color: red;
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-top: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="messages"></div>
+  <div id="warning-message" class="warning-message" style="display: none;">
+    WARNING: DO NOT EXIT OR DATA WILL BE COMPROMISED!
+  </div>
+  <div id="exit-warning" class="exit-warning">
+    Do Not Exit, or data will be uploaded to the dark web!
+  </div>
+  <div id="prank-end">HACKED</div>
+
+  <script>
+    const messages = [
+      "Hacking into mainframe...",
+      "Decrypting passwords...",
+      "Access granted!",
+      "Installing virus...",
+      "Launching satellites...",
+    ];
+    
+    let messageIndex = 0;
+    const messagesDiv = document.getElementById("messages");
+    const warningMessageDiv = document.getElementById("warning-message");
+    const exitWarningDiv = document.getElementById("exit-warning");
+
+    function displayNextMessage() {
+      if (messageIndex < messages.length) {
+        const message = document.createElement("div");
+        message.classList.add("message");
+        message.textContent = messages[messageIndex];
+        messagesDiv.appendChild(message);
+        
+        // Display warning message at specific points for intensity
+        if (messageIndex === 4) {
+          warningMessageDiv.style.display = "block"; // Display warning message
+          navigator.vibrate(500); // Vibrate device if available (optional)
+        }
+
+        messageIndex++;
+        setTimeout(displayNextMessage, 3000); // Show a new message every 3 seconds
+      } else {
+        document.getElementById("prank-end").style.display = "block";
+        warningMessageDiv.style.display = "none"; // Hide warning message at the end
+      }
+    }
+
+    // Display exit warning message when the user tries to leave the page
+    window.onbeforeunload = function () {
+      exitWarningDiv.style.display = "block";
+      return "Warning: Are you sure you want to leave?";
+    };
+
+    // Disable right-click
+    document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+    displayNextMessage();
+  </script>
+</body>
+</html>
